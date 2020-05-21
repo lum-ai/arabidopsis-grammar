@@ -6,7 +6,7 @@ taxonomy:
     - Family
 
 vars:
-  entitywildcard: "[entity=/^[^O]]+"
+  entitywildcard: "[entity=/^[^O]/]+"
   # Add family, bioprocess, etc -specific
 rules:
   - name: "phosphorylation-1"
