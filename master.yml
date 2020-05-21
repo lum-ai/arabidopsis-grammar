@@ -1,3 +1,17 @@
 taxonomy:
-  - Event
-  - Entity
+  - Event:
+    - Phosphorylation
+  - Entity:
+    - BioProcess
+    - Family
+
+vars:
+  entitywildcard: "[entity=/^[^O]]+"
+  # Add family, bioprocess, etc -specific
+rules:
+  - name: "phosphorylation-1"
+    label: Phosphorylation
+    type: event
+    pattern: |
+      trigger = [lemma=phosphorylate]
+      subj:^Entity = >nsubj ${entitywildcard}
