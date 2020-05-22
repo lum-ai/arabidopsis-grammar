@@ -1,17 +1,34 @@
 taxonomy:
+  - Relation:
+    - Contains
   - Event:
-    - Phosphorylation
+    - ArabidopsisEvent
   - Entity:
-    - BioProcess
     - Family
+    - BioProcess
+  - TermOfInterest
 
 vars:
-  entitywildcard: "[entity=/^[^O]/]+"
-  # Add family, bioprocess, etc -specific
+  entitywildcard: "[entity=/[BI].*/]+"
+
+
 rules:
-  - name: "phosphorylation-1"
-    label: Phosphorylation
+
+#   - name: "arabidopsis-sentence"
+#     label: ArabidopsisEvent
+#     type: basic
+#     pattern: |
+#       [lemma=/arabid.*/]
+
+  - name: "arabadopsis-example"
+    label: ArabidopsisEvent
     type: event
     pattern: |
-      trigger = [lemma=phosphorylate]
-      subj:^Entity = >nsubj ${entitywildcard}
+      # interesting triggers: contains
+      trigger = [tag=/V.*/]
+      # assert the term of interest is present in this sentence
+      context: ^Context = (>>|<<)+ [lemma=/arabid.*/] # NOTE: /(?i)arabid.*/ fails.  Why?
+      subject: ^Entity = >nsubj [entity=/[BI].*/]+
+      #negation: ^NegationMarker = >neg
+      #object: ^Entity = >object [entity=/[BI].*/]+
+
