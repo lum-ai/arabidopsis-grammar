@@ -27,8 +27,8 @@ rules:
       # interesting triggers: contains
       trigger = [tag=/V.*/]
       # assert the term of interest is present in this sentence
-      context: ^Context = (>>|<<)+ [lemma=/arabid.*/] # NOTE: /(?i)arabid.*/ fails.  Why?
+      context: ^Context = (>>|<<)+ [lemma=/[Aa]rabid.*/] # NOTE: /(?i)arabid.*/ fails.  Why?
       subject: ^Entity = >nsubj [entity=/[BI].*/]+
       #negation: ^NegationMarker = >neg
-      #object: ^Entity = >object [entity=/[BI].*/]+
+      #object: ^Entity = >dobj [entity=/[BI].*/]+
 
