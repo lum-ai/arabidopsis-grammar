@@ -1,43 +1,33 @@
-taxonomy:
-  - Relation:
-    - Contains
-  - Event:
-    - ArabidopsisEvent:
-      - Phosphorylation
-  - Entity:
-    - Family
-    - BioProcess
-  - TermOfInterest
-
-vars:
-  entitywildcard: "[entity=/[BI].*/]+"
-
+# vars:
+#   entitywildcard: "[entity=/[BI].*/]+"
 
 rules:
 
-#   - name: "arabidopsis-sentence"
-#     label: ArabidopsisEvent
-#     type: basic
-#     pattern: |
-#       [lemma=/arabid.*/]
+    # - name: "A-phosphorylates-B"
+    #   label: Phosphorylation
+    #   example: "A phosphorylates B"
+    #   priority: 2
+    #   keep: false
+    #   type: event
+    #   pattern: |
+    #     trigger = [lemma=phosphorylate]
+    #     agent:^Entity = >nsubj [entity=/[BI].*/]+
+    #     patient:^Entity = >dobj [entity=/[BI].*/]+
+    #     cause:^Damage = >>{1,2} (?<cause>[tag=NN]? damage)
 
-  - name: "arabadopsis-example"
-    label: ArabidopsisEvent
-    type: event
-    pattern: |
-      # interesting triggers: contains
-      trigger = [tag=/V.*/]
-      # assert the term of interest is present in this sentence
-      context: ^Context = (>>|<<)+ [lemma=/[Aa]rabid.*/] # NOTE: /(?i)arabid.*/ fails.  Why?
-      subject: ^Entity = >nsubj [entity=/[BI].*/]+
-      #negation: ^NegationMarker = >neg
-      #object: ^Entity = >dobj [entity=/[BI].*/]+
 
-  - name: "phosphorylation-syntax-verb-1"
-    label: Phosphorylation
-    type: event
-    pattern: |
-      trigger = [tag=/V.*/ & lemma=/phosphorylat.*/]
-      theme: ^Entity = >dobj [entity=/[BI].*/]+
-      actor: ^Entity? = >nsubj [entity=/[BI].*/]+
+    - name: "complex-event"
+      label: ComplexEvent
+      example: "A phosphorylates B in response to C"
+      priority: 2
+      keep: false
+      type: basic
+      pattern: |
+        (?<agent>[entity=/[BI].*/]+) 
+        <nsubj (?<trigger>[lemma=/.*(ylate|tinate)/]) 
+        >dobj (?<patient> [entity=/[BI].*/]+)
+        (<dobj >nmod_at (?<site>[tag=NN & word=/.*[0-9]/]))?
+        #>nmod_in response to (?<cause> [tag=NN]+)
 
+
+#acl:relcl
